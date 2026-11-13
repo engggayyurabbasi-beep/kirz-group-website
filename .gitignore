@@ -1,0 +1,23 @@
+node_modules
+.next
+out
+.env
+.env.local
+*.log
+.DS_Store
+
+.env.local
+.env.*.local
+data/*.json
+!data/.gitkeep
+.next
+node_modules
+
+public/uploads/*
+!public/uploads/.gitkeep
+/kirz-group-website/
+
+# Local backups and build files
+*.bak
+*.tsbuildinfo
+/kirz-group-website/

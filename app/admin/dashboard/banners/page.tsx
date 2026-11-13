@@ -1,0 +1,19 @@
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import AdminGuard from "@/components/AdminGuard";
+import AdminLogout from "@/components/AdminLogout";
+type Banner={id:string;imageUrl:string;alt:string;url:string;active:boolean;order:number};
+function BannerEditor(){
+ const [items,setItems]=useState<Banner[]>([]),[message,setMessage]=useState(""),[busy,setBusy]=useState(false);
+ useEffect(()=>{fetch("/api/admin/banners").then(async r=>{if(!r.ok)throw new Error("Admin session expired");const d=await r.json();setItems(d.banners||[]);}).catch(e=>setMessage(e.message));},[]);
+ function update(i:number,k:keyof Banner,v:string|boolean|number){setItems(old=>old.map((b,n)=>n===i?{...b,[k]:v}:b));}
+ function add(){if(items.length>=50)return;setItems(old=>[...old,{id:`banner-${Date.now()}`,imageUrl:"",alt:"KIRZ Group promotional banner",url:"",active:true,order:old.length}]);}
+ async function upload(i:number,file?:File){if(!file)return;const fd=new FormData();fd.append("file",file);setMessage("Uploading banner image…");try{const r=await fetch("/api/admin/upload",{method:"POST",body:fd});const d=await r.json();if(!r.ok)throw new Error(d.error);update(i,"imageUrl",d.url);setMessage("Image uploaded. Save banners to publish.");}catch(e){setMessage(e instanceof Error?e.message:"Upload failed");}}
+ async function save(){setBusy(true);setMessage("Saving…");try{const r=await fetch("/api/admin/banners",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({banners:items})});const d=await r.json();if(!r.ok)throw new Error(d.error);setMessage(`${d.count} banner(s) saved successfully.`);}catch(e){setMessage(e instanceof Error?e.message:"Save failed");}finally{setBusy(false);}}
+ return <section className="container admin-shell"><div className="admin-topbar"><div><div className="eyebrow dark">HOMEPAGE PROMOTIONS</div><h1>Banner Slider</h1><p>320 × 100 px banner images. Add up to 50 banners and manage their order, links and visibility.</p></div><div className="admin-top-actions"><Link href="/admin/dashboard" className="back-link">← Dashboard</Link><AdminLogout/></div></div>
+ <div className="banner-admin-toolbar"><strong>Banners ({items.length}/50)</strong><button className="button button-outline-dark" type="button" onClick={add} disabled={items.length>=50}>+ Add Banner</button></div>
+ <div className="banner-admin-list">{items.map((b,i)=><article className="banner-admin-card" key={b.id}><div className="banner-admin-card-head"><strong>Banner {i+1}</strong><label><input type="checkbox" checked={b.active} onChange={e=>update(i,"active",e.target.checked)}/> Active</label><button type="button" className="admin-delete" onClick={()=>setItems(old=>old.filter((_,n)=>n!==i))}>Delete</button></div>{b.imageUrl&&<img className="banner-admin-preview" src={b.imageUrl} alt={b.alt}/>}<div className="admin-form-grid"><label className="full">Banner Image (recommended 320 × 100)<input type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>upload(i,e.target.files?.[0])}/><input value={b.imageUrl} onChange={e=>update(i,"imageUrl",e.target.value)} placeholder="/uploads/banner.jpg"/></label><label>Image description<input value={b.alt} onChange={e=>update(i,"alt",e.target.value)}/></label><label>Click destination URL<input value={b.url} onChange={e=>update(i,"url",e.target.value)} placeholder="/brands or https://..."/></label><label>Display order<input type="number" min="0" value={b.order} onChange={e=>update(i,"order",Number(e.target.value))}/></label></div></article>)}</div>
+ <div className="admin-save-row"><button className="button button-gold" type="button" onClick={save} disabled={busy}>{busy?"Saving…":"Save All Banners"}</button>{message&&<span>{message}</span>}</div></section>;
+}
+export default function BannersAdminPage(){return <AdminGuard><BannerEditor/></AdminGuard>}

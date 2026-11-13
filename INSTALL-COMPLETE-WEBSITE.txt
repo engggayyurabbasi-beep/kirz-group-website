@@ -1,0 +1,28 @@
+KIRZ GROUP WEBSITE - COMPLETE PROJECT
+
+This ZIP contains the complete website source project, including the homepage banner slider,
+admin pages/API, portfolio pages, assets, and the compact footer component.
+
+FOOTER UPDATE:
+- The separate phone/email/address contact block has been removed from the footer.
+- The Contact link remains under Information.
+- The compact logo + copyright/tagline row remains.
+
+IMPORTANT BEFORE REPLACING YOUR OLD PROJECT:
+1. Keep a backup of your existing project.
+2. Preserve your existing .env.local file separately. It is intentionally NOT included in this ZIP
+   because it can contain private admin credentials and session secrets.
+3. Do not delete your only copy of .env.local. Copy it into the new project folder after extraction.
+4. This ZIP includes source files and package-lock.json, but not node_modules or .next build cache.
+
+TERMUX INSTALL:
+- Extract this ZIP so the folder is ~/kirz-group-website
+- Copy your saved .env.local into ~/kirz-group-website/.env.local
+- Run: cd ~/kirz-group-website
+- Run: npm install
+- Run: npm run dev
+
+PRODUCTION BUILD CHECK:
+- Run: npm run build
+
+If you use a different deployment environment, configure the same environment variables there.

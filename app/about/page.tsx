@@ -1,0 +1,15 @@
+"use client";
+import PageIntro from "@/components/PageIntro";
+import { useLanguage } from "@/components/LanguageProvider";
+export default function AboutPage(){
+ const {t,locale}=useLanguage(); const hi=locale==="hi";
+ const steps=hi?[["01","सोच और उद्देश्य","विश्वास, गुणवत्ता और दीर्घकालिक विकास पर आधारित व्यवसायिक दृष्टिकोण।"],["02","विविध व्यवसाय","अलग-अलग क्षेत्रों में ब्रांड और व्यावसायिक पहलों का विकास।"],["03","साझेदारी और विस्तार","डिस्ट्रीब्यूटर, रीसेलर और बिजनेस पार्टनर्स के साथ अवसर।"],["04","आगे की दिशा","नवाचार, बेहतर सेवाओं और जिम्मेदार विकास पर निरंतर ध्यान।"]]:[["01","Vision & Purpose","A business approach grounded in trust, quality and long-term progress."],["02","Diverse Businesses","Building brands and initiatives across different business sectors."],["03","Partnership & Growth","Creating opportunities with distributors, resellers and business partners."],["04","Looking Ahead","Continuing to focus on innovation, better service and responsible growth."]];
+ return <>
+  <PageIntro eyebrow={t.aboutEyebrow} title={t.aboutPageTitle} description={t.aboutText}/>
+  <section className="container about-page-content"><div className="about-statement"><div className="eyebrow dark">{hi?"हम कौन हैं":"WHO WE ARE"}</div><h2>{hi?"व्यवसाय को आगे बढ़ाने का साझा दृष्टिकोण।":"A shared vision for meaningful business growth."}</h2><p>{hi?"KIRZ Group विभिन्न व्यवसायिक पहलों और ब्रांड्स को एक साझा पहचान के अंतर्गत जोड़ता है। हमारा ध्यान भरोसेमंद संबंधों, गुणवत्ता और नए अवसरों के निर्माण पर है।":"KIRZ Group brings diverse business initiatives and brands together under one identity. Our focus is on trusted relationships, quality and creating meaningful opportunities."}</p></div>
+   <div className="about-pillars"><article className="about-pillar"><span>01 / VISION</span><h3>{t.vision}</h3><p>{t.visionText}</p></article><article className="about-pillar"><span>02 / MISSION</span><h3>{t.mission}</h3><p>{t.missionText}</p></article><article className="about-pillar"><span>03 / VALUES</span><h3>{t.values}</h3><p>{t.valuesText}</p></article></div>
+   <div className="journey-feature"><div className="journey-feature-head"><div className="eyebrow">{hi?"हमारी यात्रा":"OUR JOURNEY"}</div><h2>{hi?"उद्देश्य से प्रगति तक":"Building forward, one opportunity at a time."}</h2><p>{hi?"हमारी यात्रा निरंतर सीखने, नए अवसर बनाने और बेहतर व्यवसाय विकसित करने के संकल्प से आगे बढ़ती है।":"Our journey is shaped by continuous learning, new opportunities and the ambition to build better businesses."}</p></div><div className="journey-list">{steps.map(([n,title,desc])=><article className="journey-step" key={n}><span>{n}</span><div><h3>{title}</h3><p>{desc}</p></div><span className="journey-arrow">↗</span></article>)}</div></div>
+   <div className="about-note"><strong>{hi?"हमारा दृष्टिकोण":"OUR APPROACH"}</strong><p>{hi?"हम हर ब्रांड की अलग पहचान का सम्मान करते हुए KIRZ Group के साझा मूल्यों और गुणवत्ता के संकल्प को आगे बढ़ाते हैं।":"We respect the distinct identity of every brand while building on the shared values and quality commitment of KIRZ Group."}</p></div>
+  </section>
+ </>;
+}

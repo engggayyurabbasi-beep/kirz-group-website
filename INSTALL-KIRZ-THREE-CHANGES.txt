@@ -1,0 +1,24 @@
+KIRZ GROUP WEBSITE — THREE-CHANGE PATCH
+
+Included changes:
+1. Footer copyright lockup: compact KIRZ logo beside the two requested text lines.
+2. Homepage hero buttons enlarged; homepage portfolio cards use two columns, full-cover thumbnails and a small logo thumbnail at the top-left.
+3. Homepage banner slider inserted between Who We Are and Our Portfolio. Banner aspect ratio is 320:100 (16:5). Admin can add up to 50 banners, upload images, set alt text, click URL, order and active status.
+
+Admin route: /admin/dashboard/banners
+
+API:
+GET /api/banners (public active banners)
+GET/PUT /api/admin/banners (admin session required)
+
+Upload banner images from the Banner Slider admin page. Supported formats: PNG, JPG, WEBP. The existing upload API limits each image to 5 MB.
+
+Deployment:
+- Keep your existing .env.local file; it is intentionally not included in this ZIP.
+- Back up the current project before replacing it.
+- Run: npm install
+- Run: npm run typecheck
+- Run: npm run build
+- Run: npm run dev (development) or npm start (production after build).
+
+Validation note: A full Next.js build could not be completed in this environment because dependencies were absent and npm dependency installation timed out. Run the checks above in Termux before deployment.
